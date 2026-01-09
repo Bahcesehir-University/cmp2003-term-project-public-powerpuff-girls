@@ -15,7 +15,10 @@ void TripAnalyzer:: ingestFile(const std::string& csvPath) {
    // - skip malformed rows
    // - extract PickupZoneID and pickup hour
    // - aggregate counts  
-   
+
+   std::ios_base::sync_with_stdio(false);
+   std::cin.tie(NULL);
+	
    std::ifstream file(csvPath);
    if (!file.is_open()) return; //dosya açılmazsa bir şey yapma
    std::string line; //okunacak satırı alır
@@ -108,6 +111,7 @@ std::vector<SlotCount> TripAnalyzer::topBusySlots(int k) const {
    }
    return slots;
 }
+
 
 
 
