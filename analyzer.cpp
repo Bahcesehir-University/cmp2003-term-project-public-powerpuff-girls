@@ -1,5 +1,6 @@
 #include "analyzer.h"
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -110,6 +111,7 @@ std::vector<SlotCount> TripAnalyzer::topBusySlots(int k) const {
    }
    return slots;
 }
+
 
 
 
