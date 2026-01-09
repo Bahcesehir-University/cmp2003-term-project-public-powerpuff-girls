@@ -1,8 +1,11 @@
-#include "analyzer.h"
-#include <fstream>
-#include <map>
+#include <iostream>
+#include <string>
+#include <vector>
 #include <unordered_map>
+#include <map>
 #include <algorithm>
+#include <cctype>
+
 // Students may use ANY data structure internally
 static std::unordered_map<std::string, long long> zoneCount;
 static std::unordered_map<std::string, std::map<int, long long>> zoneHourCount;
@@ -14,34 +17,38 @@ void TripAnalyzer:: ingestFile(const std::string& csvPath) {
    // - skip malformed rows
    // - extract PickupZoneID and pickup hour
    // - aggregate counts   
-  	std::ios::sync_with_stdio(false);
-	std::cin.tie(NULL);
    
    std::ifstream file(csvPath);
    if (!file.is_open()) return; //dosya açılmazsa bir şey yapma
    std::string line; //okunacak satırı alır
    if (!std::getline(file, line)) return; //headerı okur atlar
+	
    while (std::getline(file, line)) {
        if (line.empty()) continue; //boş satırı atla
        int commaCount = 0;
        for (size_t i = 0; i < line.size(); i++) {
            if (line[i] == ',') commaCount++; // virgülleri say
        }
+	   
        if (commaCount < 5) continue; //kolon sayısı 6dan azsa satırı geç
        //virgüllerin yerini bul
        int c1 = line.find(',');
-       int c2 = line.find(',', c1 + 1);
+	   int c2 = line.find(',', c1 + 1);
        int c3 = line.find(',', c2 + 1);
        int c4 = line.find(',', c3 + 1);
+	   
        std::string pickupZone = line.substr(c1 + 1, c2 - c1 - 1);  //pickupZone bilgisini al
        if (pickupZone.empty()) continue; //pickupZone boşsa geç
+	   
        std::string pickupDateTime = line.substr(c3 + 1, c4 - c3 - 1); //pickup tarih-saat bilgisini al
        //tarih ve zaman bilgileri doğru mu kontrol et
        if (pickupDateTime.size() < 13) continue;
        if (pickupDateTime[4] != '-' || pickupDateTime[7] != '-' || pickupDateTime[10] != ' ') continue;
        if (!isdigit(pickupDateTime[11]) || !isdigit(pickupDateTime[12])) continue;
+	   
        int pickupHour = std::stoi(pickupDateTime.substr(11, 2)); //saati integera çevir
        if (pickupHour < 0 || pickupHour > 23) continue; //saat 0 23 arasında mı kontrol et
+	   
        zoneCount[pickupZone]++; // toplam yolculuk sayısını artırır
        zoneHourCount[pickupZone][pickupHour]++; // o zone’daki belirli saat için yolculuk sayısını artırır
    }
@@ -103,7 +110,3 @@ std::vector<SlotCount> TripAnalyzer::topBusySlots(int k) const {
    }
    return slots;
 }
-
-
-
-
