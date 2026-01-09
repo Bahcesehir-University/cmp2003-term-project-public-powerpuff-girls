@@ -1,11 +1,8 @@
 #include "analyzer.h"
-#include <iostream>
-#include <string>
-#include <vector>
-#include <unordered_map>
+#include <fstream>
 #include <map>
+#include <unordered_map>
 #include <algorithm>
-#include <cctype>
 
 // Students may use ANY data structure internally
 static std::unordered_map<std::string, long long> zoneCount;
@@ -111,5 +108,6 @@ std::vector<SlotCount> TripAnalyzer::topBusySlots(int k) const {
    }
    return slots;
 }
+
 
 
