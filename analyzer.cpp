@@ -1,7 +1,9 @@
 #include "analyzer.h"
-#include <fstream>
-#include <map>
+#include <iostream>
+#include <string>
+#include <vector>
 #include <unordered_map>
+#include <map>
 #include <algorithm>
 
 // Students may use ANY data structure internally
@@ -108,6 +110,7 @@ std::vector<SlotCount> TripAnalyzer::topBusySlots(int k) const {
    }
    return slots;
 }
+
 
 
 
